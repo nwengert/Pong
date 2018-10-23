@@ -26,7 +26,6 @@ class GameInterface extends Component {
       ballColor: "",
       start: false
     };
-
     this.handleSelect = this.handleSelect.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleStart = this.handleStart.bind(this);

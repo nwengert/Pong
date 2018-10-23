@@ -7,7 +7,7 @@ class GameControls extends Component {
   }
 
   render(props) {
-    // console.log(this.props.handleStop);
+    console.log(this.props);
     return (
       <article>
         <div>
@@ -32,12 +32,14 @@ class GameControls extends Component {
 
           <div>
             <h3>Initial Ball Velocity: </h3>
-            <select value={this.props.initialVelocity}>
-              name="initialVelocity" onChange={this.props.handleSelect}
-              >
-              <option value="1"> 1 - beginner</option>
-              <option value="2"> 2 - advanced</option>
-              <option value="3"> 3 - running riot</option>
+            <select
+              defaultValue={this.props.initialVelocity}
+              name="initialVelocity"
+              onChange={this.props.handleSelect}
+            >
+              <option value="1">1 - beginner</option>
+              <option value="2">2 - advanced</option>
+              <option value="3">3 - running riot</option>
             </select>
           </div>
 

@@ -41,7 +41,6 @@ class GameCanvas extends Component {
       width: 15,
       height: 80,
       // color: "#FFF",
-      //this is where I need to pass in a prop for paddle color, from the form.
       color: this.props.p2PaddleColor,
       velocityY: 2
     });
@@ -60,8 +59,8 @@ class GameCanvas extends Component {
       color: this.props.ballColor,
 
       //Here's INITIAL Velocity
-      velocityX: 1,
-      velocityY: 1
+      velocityX: Number(this.props.initialVelocity),
+      velocityY: Number(this.props.initialVelocity)
     });
 
     // start render loop
@@ -113,10 +112,10 @@ class GameCanvas extends Component {
       this.player1.x - 15
     ) {
       this.p2Score += 1;
+
       // stop game once p2 score exceeds maxScore -NW
       if (this.p2Score === this.props.maxScore) {
         this.props.handleStop();
-        console.log("max score");
       }
       this.deadBalls.push(this.gameBall);
       this.gameBall = new this.GameClasses.Box({
@@ -192,12 +191,6 @@ class GameCanvas extends Component {
     this.ctx.fillStyle = "rgb(255, 255, 255)";
     this.ctx.fillText(this.p2Score, this.canvas.width / 2 + 33, 30);
   };
-
-  // //STOP game if points >= maxPoints
-  // if(this.p2Score > this.props.maxScore || this.p2Score >= this.props.maxScore) {
-
-  // }
-
   //track user input
   _userInput = () => {
     if (87 in this.keys) {
@@ -237,7 +230,6 @@ class GameCanvas extends Component {
       }
     };
   })();
-
   render() {
     return (
       <canvas
