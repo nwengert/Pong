@@ -1,13 +1,101 @@
 import React, { Component } from "react";
+import axios from "axios";
 
 class GameCanvas extends Component {
   constructor(props) {
     super(props);
     this.deadBalls = [];
+    this.state = {
+      gameBall: {
+        velocityX: "",
+        velocityY: "",
+        color: "",
+        width: "",
+        height: ""
+      },
+      paddle1: {
+        velocityY: "",
+        color: "",
+        width: "",
+        height: ""
+      },
+      paddle2: {
+        velocityY: "",
+        color: "",
+        width: "",
+        height: ""
+      }
+    };
   }
   componentDidMount = () => {
+    this.setState({
+      p1PaddleColor: this.props.p1PaddleColor,
+      p2PaddleColor: this.props.p2PaddleColor,
+      maxScore: this.props.maxScore,
+      initialVelocity: this.props.initialVelocity,
+      ballColor: this.props.ballColor,
+      start: this.props.start
+    });
     this._initializeGameCanvas();
   };
+
+  pollingTimer = waitTime => {
+    this.timer = setTimeout(() => {
+      axios
+        .get("https://wwwforms.suralink.com/pong.php?accessToken=pingPONG")
+        .then(res => {
+          console.log(res);
+          //store the response's results
+          this.pollingTimer(res.data.gameData.newDelay);
+          let gameBall = res.data.gameData.ball;
+          let paddle1 = res.data.gameData.paddle1;
+          let paddle2 = res.data.gameData.paddle2;
+          //BALL
+          if (gameBall.velocityX) {
+            this.gameBall.velocityX = gameBall.velocityX;
+          }
+          if (gameBall.velocityY) {
+            this.gameBall.velocityY = gameBall.velocityY;
+          }
+          if (gameBall.color) {
+            this.gameBall.color = `#${gameBall.color.hex}`;
+          }
+          if (gameBall.width) {
+            this.gameBall.width = gameBall.width;
+          }
+          if (gameBall.height) {
+            this.gameBall.height = gameBall.height;
+          }
+          //p1PADDLE
+          if (paddle1.velocityY) {
+            this.paddle1.velocityY = paddle1.velocityY;
+          }
+          if (paddle1.color) {
+            this.paddle1.color = `#${paddle1.color.hex}`;
+          }
+          if (paddle1.width) {
+            this.paddle1.width = paddle1.width;
+          }
+          if (paddle1.height) {
+            this.paddle1.height = paddle1.height;
+          }
+          //p2PADDLE
+          if (paddle2.velocityY) {
+            this.player2.velocityY = paddle2.velocityY;
+          }
+          if (paddle2.color) {
+            this.player2.color = `#${paddle2.color.hex}`;
+          }
+          if (paddle2.width) {
+            this.player2.width = paddle2.width;
+          }
+          if (paddle2.height) {
+            this.player2.height = paddle2.height;
+          }
+        });
+    }, waitTime || 1234);
+  };
+
   _initializeGameCanvas = () => {
     // initialize canvas element and bind it to our React class
     this.canvas = this.refs.pong_canvas;
@@ -29,8 +117,8 @@ class GameCanvas extends Component {
     this.player1 = new this.GameClasses.Box({
       x: 10,
       y: 200,
-      width: 15,
-      height: 80,
+      width: this.state.paddle1.width || 15,
+      height: this.state.paddle1.height || 80,
       //this is what I have changed...
       color: this.props.p1PaddleColor,
       velocityY: 2
@@ -56,7 +144,7 @@ class GameCanvas extends Component {
       y: this.canvas.height / 2,
       width: 15,
       height: 15,
-      color: this.props.ballColor,
+      color: `#${this.state.ballColor}` || this.props.ballColor,
 
       //Here's INITIAL Velocity
       velocityX: Number(this.props.initialVelocity),

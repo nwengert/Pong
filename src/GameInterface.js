@@ -7,17 +7,6 @@ import GameControls from "./components/GameControls";
 class GameInterface extends Component {
   constructor() {
     super();
-    // this.state = {
-    //   paddle1: {
-    //     width: int,
-    //     height: int,
-    //     color: "white",
-    //     velocityY: 3,
-    //   p2PaddleColor: "",
-    //   ballColor: "",
-    //   start: false
-    // };
-
     this.state = {
       p1PaddleColor: "",
       p2PaddleColor: "",
@@ -66,10 +55,11 @@ class GameInterface extends Component {
             <div className="wrapperDiv">
               <GameControls
                 {...this.state}
+                handlePaddle1={this.handlePaddle1}
                 handleSelect={this.handleSelect}
+                handleChange={this.handleChange}
                 handleStart={this.handleStart}
                 handleStop={this.handleStop}
-                handleChange={this.handleChange}
               />
               <GameCanvas {...this.state} handleStop={this.handleStop} />
             </div>
@@ -98,10 +88,11 @@ class GameInterface extends Component {
             <div className="wrapperDiv">
               <GameControls
                 {...this.state}
+                handlePaddle1={this.handlePaddle1}
                 handleSelect={this.handleSelect}
+                handleChange={this.handleChange}
                 handleStart={this.handleStart}
                 handleStop={this.handleStop}
-                handleChange={this.handleChange}
               />
             </div>
           </section>

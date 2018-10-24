@@ -7,7 +7,7 @@ class GameControls extends Component {
   }
 
   render(props) {
-    console.log(this.props);
+    console.log(this.props.handleSelect);
     return (
       <article>
         <div>
